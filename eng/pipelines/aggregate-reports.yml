@@ -58,6 +58,12 @@ stages:
             jdkArchitectureOption: 'x64'
             publishJUnitResults: false
             goals: 'verify site:site site:stage'
+            
+        - pwsh: |
+            New-Item -Force -ItemType directory -Path eng/bomgenerator/inputDir
+            Copy-Item sdk/boms/azure-sdk-bom/pom.xml eng/bomgenerator/inputDir
+            Copy-Item eng/versioning/version_client.txt eng/bomgenerator/inputDir
+          displayName: 'Prepare for BOM validation.'
 
         - task: Maven@3
           condition: succeededOrFailed()
